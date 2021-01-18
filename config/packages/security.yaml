@@ -1,0 +1,31 @@
+security:
+    encoders:
+        App\Entity\User: auto
+
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: lazy
+            pattern: ^/
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            # form_login:
+            #     login_path: login
+            #     check_path: login
+            #     always_use_default_target_path:  true
+            #     default_target_path:  /
+            logout: ~
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/users, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }
