@@ -5,4 +5,6 @@ php:
 script:
    - composer install
    - ls
-   - /bin/phpunit
+   - cd bin
+   - ls
+   - php phpunit
