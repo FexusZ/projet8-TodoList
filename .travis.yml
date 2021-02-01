@@ -4,7 +4,4 @@ php:
 
 script:
    - composer install
-   - ls
-   - cd bin
-   - ls
-   - php phpunit
+   - php bin/phpunit
