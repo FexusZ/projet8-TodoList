@@ -23,6 +23,9 @@
     "doctrine/common": {
         "version": "3.1.0"
     },
+    "doctrine/data-fixtures": {
+        "version": "1.5.0"
+    },
     "doctrine/dbal": {
         "version": "2.12.1"
     },
@@ -39,6 +42,18 @@
             "./config/packages/prod/doctrine.yaml",
             "./src/Entity/.gitignore",
             "./src/Repository/.gitignore"
+        ]
+    },
+    "doctrine/doctrine-fixtures-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "e5b542d4ef47d8a003c91beb35650c76907f7e53"
+        },
+        "files": [
+            "./src/DataFixtures/AppFixtures.php"
         ]
     },
     "doctrine/event-manager": {
@@ -65,11 +80,33 @@
     "egulias/email-validator": {
         "version": "2.1.25"
     },
+    "fakerphp/faker": {
+        "version": "v1.13.0"
+    },
     "incenteev/composer-parameter-handler": {
         "version": "v2.1.4"
     },
+    "liip/test-fixtures-bundle": {
+        "version": "1.11.0"
+    },
     "monolog/monolog": {
         "version": "1.26.0"
+    },
+    "myclabs/deep-copy": {
+        "version": "1.10.2"
+    },
+    "nelmio/alice": {
+        "version": "3.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.2",
+            "ref": "0b9900ece737bec7752e4155c0164639dd9b0cb0"
+        },
+        "files": [
+            "./config/packages/dev/nelmio_alice.yaml",
+            "./config/packages/test/nelmio_alice.yaml"
+        ]
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -80,11 +117,38 @@
     "psr/log": {
         "version": "1.1.3"
     },
+    "sebastian/comparator": {
+        "version": "4.0.6"
+    },
+    "sebastian/diff": {
+        "version": "4.0.4"
+    },
+    "sebastian/exporter": {
+        "version": "4.0.3"
+    },
+    "sebastian/recursion-context": {
+        "version": "4.0.4"
+    },
+    "sensio/framework-extra-bundle": {
+        "version": "5.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
+        },
+        "files": [
+            "./config/packages/sensio_framework_extra.yaml"
+        ]
+    },
     "swiftmailer/swiftmailer": {
         "version": "v6.2.5"
     },
     "symfony/asset": {
         "version": "v4.4.18"
+    },
+    "symfony/browser-kit": {
+        "version": "v4.4.19"
     },
     "symfony/cache": {
         "version": "v4.4.18"
@@ -108,6 +172,9 @@
             "./config/bootstrap.php"
         ]
     },
+    "symfony/css-selector": {
+        "version": "v4.4.19"
+    },
     "symfony/debug": {
         "version": "v4.4.18"
     },
@@ -116,6 +183,9 @@
     },
     "symfony/doctrine-bridge": {
         "version": "v4.4.18"
+    },
+    "symfony/dom-crawler": {
+        "version": "v4.4.19"
     },
     "symfony/dotenv": {
         "version": "v4.4.18"
@@ -249,6 +319,9 @@
     "symfony/polyfill-php80": {
         "version": "v1.22.0"
     },
+    "symfony/profiler-pack": {
+        "version": "v1.0.5"
+    },
     "symfony/property-access": {
         "version": "v4.4.18"
     },
@@ -292,6 +365,9 @@
     },
     "symfony/service-contracts": {
         "version": "v2.2.0"
+    },
+    "symfony/stopwatch": {
+        "version": "v4.4.19"
     },
     "symfony/swiftmailer-bundle": {
         "version": "2.5",
@@ -346,8 +422,31 @@
     "symfony/var-exporter": {
         "version": "v4.4.18"
     },
+    "symfony/web-profiler-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "6bdfa1a95f6b2e677ab985cd1af2eae35d62e0f6"
+        },
+        "files": [
+            "./config/packages/dev/web_profiler.yaml",
+            "./config/packages/test/web_profiler.yaml",
+            "./config/routes/dev/web_profiler.yaml"
+        ]
+    },
     "symfony/yaml": {
         "version": "v4.4.18"
+    },
+    "theofidry/alice-data-fixtures": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "fe5a50faf580eb58f08ada2abe8afbd2d4941e05"
+        }
     },
     "twig/twig": {
         "version": "v3.2.1"

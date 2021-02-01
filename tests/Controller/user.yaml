@@ -1,0 +1,5 @@
+App\Entity\User:
+  user_user:
+    email: test@test.fr
+    username: test
+    password: \$2y\$10\$ajvAysXLmtriAy9So/mUTeQan7F.VX7VAc4Nj2LJHqFvi94gWeNNa

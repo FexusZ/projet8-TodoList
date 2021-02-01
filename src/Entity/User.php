@@ -28,7 +28,8 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=256)
+     * @Assert\NotBlank(message="Le mot de passe ne peu pas être vide.")
      */
     private $password;
 
@@ -52,6 +53,7 @@ class User implements UserInterface
     public function setUsername($username)
     {
         $this->username = $username;
+        return $this;
     }
 
     public function getSalt()
@@ -67,6 +69,7 @@ class User implements UserInterface
     public function setPassword($password)
     {
         $this->password = $password;
+        return $this;
     }
 
     public function getEmail()
@@ -77,6 +80,7 @@ class User implements UserInterface
     public function setEmail($email)
     {
         $this->email = $email;
+        return $this;
     }
 
     public function getRoles()

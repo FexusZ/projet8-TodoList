@@ -1,0 +1,4 @@
+App\Entity\Task:
+  task:
+    title: task
+    content: content of task
