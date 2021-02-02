@@ -136,4 +136,42 @@ class TaskControllerTest extends WebTestCase
 		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
 		$this->assertSelectorTextContains('div.alert.alert-success', 'Superbe ! La tâche a été bien été ajoutée.');
 	}
+
+	public function testToggleTaskAction()
+	{
+		$client = static::createClient();
+
+		$users = $this->loadFixtureFiles([
+		 	__DIR__ . '/user.yaml',
+		 	__DIR__ . '/task.yaml'
+		]);
+
+		$this->login($client, $users['user_user']);
+
+		$crawler = $client->request('GET', '/tasks/' . $users['task']->getId() . '/toggle');
+
+		$this->assertResponseRedirects('/tasks');
+		$client->followRedirect();
+		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
+		$this->assertSelectorTextContains('div.alert.alert-success', ' La tâche task a bien été marquée comme faite.');
+	}
+
+	public function testDeleteTaskAction()
+	{
+		$client = static::createClient();
+
+		$users = $this->loadFixtureFiles([
+		 	__DIR__ . '/user.yaml',
+		 	__DIR__ . '/task.yaml'
+		]);
+
+		$this->login($client, $users['user_user']);
+
+		$crawler = $client->request('GET', '/tasks/' . $users['task']->getId() . '/delete');
+
+		$this->assertResponseRedirects('/tasks');
+		$client->followRedirect();
+		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
+		$this->assertSelectorTextContains('div.alert.alert-success', ' La tâche a bien été supprimée.');
+	}
 }

@@ -13,8 +13,6 @@ class SecurityController extends AbstractController
      */
     public function loginAction(Request $request, AuthenticationUtils $authenticationUtils)
     {
-        // $authenticationUtils = $this->get('security.authentication_utils');
-
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
@@ -25,18 +23,9 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/login_check", name="login_check")
-     */
-    public function loginCheck()
-    {
-        // This code is never executed.
-    }
-
-    /**
      * @Route("/logout", name="logout")
      */
     public function logoutCheck()
     {
-        // This code is never executed.
     }
 }
