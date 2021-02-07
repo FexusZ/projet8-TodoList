@@ -30,7 +30,7 @@ class TaskController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
+            $task->setUser($this->getUser());
             $em->persist($task);
             $em->flush();
 
@@ -47,12 +47,16 @@ class TaskController extends AbstractController
      */
     public function editAction(Task $task, Request $request)
     {
+        $this->denyAccessUnlessGranted('EDIT', $task);
+        
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($task);
+            $em->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
 
@@ -70,10 +74,11 @@ class TaskController extends AbstractController
      */
     public function toggleTaskAction(Task $task)
     {
+        $this->denyAccessUnlessGranted('EDIT', $task);
         $task->toggle(!$task->isDone());
         $this->getDoctrine()->getManager()->flush();
 
-        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme %s.', $task->getTitle(), $task->isDone() ? 'faite' : 'non terminée'));
 
         return $this->redirectToRoute('task_list');
     }
@@ -83,6 +88,7 @@ class TaskController extends AbstractController
      */
     public function deleteTaskAction(Task $task)
     {
+        $this->denyAccessUnlessGranted('DELETE', $task);
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
         $em->flush();
