@@ -52,3 +52,11 @@ body {
 footer {
     margin: 50px 0;
 }
+
+.mb {
+  margin-bottom: 4.5rem !important;
+}
+
+.height {
+    height: 2rem;
+}
