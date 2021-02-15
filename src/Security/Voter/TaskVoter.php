@@ -23,10 +23,15 @@ class TaskVoter extends Voter
         if (!$user instanceof UserInterface) {
             return false;
         }
+
+        if ($user->getRoleUser() == 'ROLE_ADMIN') {
+            return true;
+        }
+
         if (null == $task->getUser()) {
             return false;
         }
-
+        
         switch ($attribute) {
             case 'EDIT':
                 return ($task->getUser()->getId() == $user->getId());

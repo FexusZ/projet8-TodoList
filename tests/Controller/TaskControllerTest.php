@@ -45,14 +45,40 @@ class TaskControllerTest extends WebTestCase
 		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
 	}
 
-	public function testEditActionWithGoodCredentials()
+	public function testEditActionWithGoodCredentialsUser()
+	{
+		$client = static::createClient();
+
+		$this->loadFixtures([TaskAttachedFixtures::class]);
+
+		$user = self::$container->get(UserRepository::class)->findOneBy(['role_user' => 'ROLE_USER']);
+		$task = self::$container->get(TaskRepository::class)->findOneBy(['user' => $user->getId()]);
+
+		$this->login($client, $user);
+
+		$crawler = $client->request('GET', '/tasks/' . $task->getId() . '/edit');
+
+		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
+
+		$form = $crawler->selectButton('Modifier')->form([
+			'task[title]' => 'test task',
+			'task[content]' => 'content of test task'
+		]);
+		$client->submit($form);
+		$this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
+		$this->assertResponseRedirects('/tasks');
+		$client->followRedirect();
+		$this->assertSelectorTextContains('div.alert.alert-success', 'Superbe ! La tâche a bien été modifiée.');
+	}
+
+	public function testEditActionWithGoodCredentialsAdmin()
 	{
 		$client = static::createClient();
 
 		$this->loadFixtures([TaskAttachedFixtures::class]);
 
 		$task = self::$container->get(TaskRepository::class)->find(1);
-		$user = self::$container->get(UserRepository::class)->find(1);
+		$user = self::$container->get(UserRepository::class)->findOneBy(['role_user' => 'ROLE_ADMIN']);
 
 		$this->login($client, $user);
 

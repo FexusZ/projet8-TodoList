@@ -12,11 +12,11 @@ class UserVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, ['POST_EDIT', 'POST_VIEW'])
+        return in_array($attribute, ['EDIT', 'VIEW'])
             && $subject instanceof \App\Entity\User;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $otherUser, TokenInterface $token)
     {
         $user = $token->getUser();
         // if the user is anonymous, do not grant access
@@ -24,15 +24,11 @@ class UserVoter extends Voter
             return false;
         }
 
-        // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
-            case 'POST_EDIT':
-                // logic to determine if the user can EDIT
-                // return true or false
-                break;
-            case 'POST_VIEW':
-                // logic to determine if the user can VIEW
-                // return true or false
+            case 'EDIT':
+                return ($otherUser->getId() == $user->getId() || $user->getRoleUser() == 'ROLE_ADMIN');
+            case 'VIEW':
+                return ($user->getRoleUser() == 'ROLE_ADMIN');
                 break;
         }
 
