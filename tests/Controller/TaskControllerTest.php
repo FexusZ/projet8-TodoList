@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use App\Tests\NeedLogin;
+use App\DataFixtures\TaskAttachedFixtures;
+use App\Repository\TaskRepository;
+use App\Repository\UserRepository;
 
 
 /**
@@ -42,24 +45,52 @@ class TaskControllerTest extends WebTestCase
 		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
 	}
 
-	public function testEditActionWithGoodCredentials()
+	public function testEditActionWithGoodCredentialsUser()
 	{
 		$client = static::createClient();
 
-		$users = $this->loadFixtureFiles([
-		 	__DIR__ . '/user.yaml',
-		 	__DIR__ . '/task.yaml'
-		]);
+		$this->loadFixtures([TaskAttachedFixtures::class]);
 
-		$this->login($client, $users['user_user']);
-		$crawler = $client->request('GET', '/tasks/' . $users['task']->getId() . '/edit');
+		$user = self::$container->get(UserRepository::class)->findOneBy(['role_user' => 'ROLE_USER']);
+		$task = self::$container->get(TaskRepository::class)->findOneBy(['user' => $user->getId()]);
+
+		$this->login($client, $user);
+
+		$crawler = $client->request('GET', '/tasks/' . $task->getId() . '/edit');
+
+		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
 		$form = $crawler->selectButton('Modifier')->form([
 			'task[title]' => 'test task',
 			'task[content]' => 'content of test task'
 		]);
 		$client->submit($form);
+		$this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
+		$this->assertResponseRedirects('/tasks');
+		$client->followRedirect();
+		$this->assertSelectorTextContains('div.alert.alert-success', 'Superbe ! La tâche a bien été modifiée.');
+	}
 
+	public function testEditActionWithGoodCredentialsAdmin()
+	{
+		$client = static::createClient();
+
+		$this->loadFixtures([TaskAttachedFixtures::class]);
+
+		$task = self::$container->get(TaskRepository::class)->find(1);
+		$user = self::$container->get(UserRepository::class)->findOneBy(['role_user' => 'ROLE_ADMIN']);
+
+		$this->login($client, $user);
+
+		$crawler = $client->request('GET', '/tasks/' . $task->getId() . '/edit');
+
+		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
+
+		$form = $crawler->selectButton('Modifier')->form([
+			'task[title]' => 'test task',
+			'task[content]' => 'content of test task'
+		]);
+		$client->submit($form);
 		$this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
 		$this->assertResponseRedirects('/tasks');
 		$client->followRedirect();
@@ -70,14 +101,12 @@ class TaskControllerTest extends WebTestCase
 	{
 		$client = static::createClient();
 
-		$users = $this->loadFixtureFiles([
-		 	__DIR__ . '/user.yaml',
-		 	__DIR__ . '/task.yaml'
-		]);
+		$this->loadFixtures([TaskAttachedFixtures::class]);
+		$task = self::$container->get(TaskRepository::class)->find(1);
+		$user = self::$container->get(UserRepository::class)->find(1);
 
-		$this->login($client, $users['user_user']);
-
-		$crawler = $client->request('GET', '/tasks/' . $users['task']->getId() . '/edit');
+		$this->login($client, $user);
+		$crawler = $client->request('GET', '/tasks/' . $task->getId() . '/edit');
 		$form = $crawler->selectButton('Modifier')->form([
 			'task[title]' => '',
 			'task[content]' => ''
@@ -87,6 +116,34 @@ class TaskControllerTest extends WebTestCase
 
 		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
 		$this->assertSelectorTextContains('ul.list-unstyled', 'Vous devez saisir un titre.');
+	}
+
+	public function testEditActionOtherUser()
+	{
+		$client = static::createClient();
+
+		$this->loadFixtures([TaskAttachedFixtures::class]);
+		$task = self::$container->get(TaskRepository::class)->find(2);
+		$user = self::$container->get(UserRepository::class)->find(1);
+
+		$this->login($client, $user);
+		$crawler = $client->request('GET', '/tasks/' . $task->getId() . '/edit');
+
+		$this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+	}
+
+	public function testEditActionUserAnonymous()
+	{
+		$client = static::createClient();
+
+		$this->loadFixtures([TaskAttachedFixtures::class]);
+		$task = self::$container->get(TaskRepository::class)->find(3);
+		$user = self::$container->get(UserRepository::class)->find(1);
+
+		$this->login($client, $user);
+		$crawler = $client->request('GET', '/tasks/' . $task->getId() . '/edit');
+
+		$this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
 	}
 
 	public function testcreateActionWithBadCredentials()
@@ -137,41 +194,100 @@ class TaskControllerTest extends WebTestCase
 		$this->assertSelectorTextContains('div.alert.alert-success', 'Superbe ! La tâche a été bien été ajoutée.');
 	}
 
-	public function testToggleTaskAction()
+	public function testToggleTaskActionWithGoodCredentials()
 	{
 		$client = static::createClient();
 
-		$users = $this->loadFixtureFiles([
-		 	__DIR__ . '/user.yaml',
-		 	__DIR__ . '/task.yaml'
-		]);
+		$this->loadFixtures([TaskAttachedFixtures::class]);
+		$task = self::$container->get(TaskRepository::class)->find(1);
+		$user = self::$container->get(UserRepository::class)->find(1);
 
-		$this->login($client, $users['user_user']);
+		$this->login($client, $user);
 
-		$crawler = $client->request('GET', '/tasks/' . $users['task']->getId() . '/toggle');
+		$crawler = $client->request('GET', '/tasks/' . $task->getId() . '/toggle');
 
 		$this->assertResponseRedirects('/tasks');
 		$client->followRedirect();
 		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
-		$this->assertSelectorTextContains('div.alert.alert-success', ' La tâche task a bien été marquée comme faite.');
+		$this->assertSelectorTextContains('div.alert.alert-success', 'La tâche ' . $task->getTitle() . ' a bien été marquée comme faite.');
 	}
 
-	public function testDeleteTaskAction()
+	public function testToggleTaskActionOtherUser()
 	{
 		$client = static::createClient();
 
-		$users = $this->loadFixtureFiles([
-		 	__DIR__ . '/user.yaml',
-		 	__DIR__ . '/task.yaml'
-		]);
+		$this->loadFixtures([TaskAttachedFixtures::class]);
+		$task = self::$container->get(TaskRepository::class)->find(2);
+		$user = self::$container->get(UserRepository::class)->find(1);
 
-		$this->login($client, $users['user_user']);
+		$this->login($client, $user);
 
-		$crawler = $client->request('GET', '/tasks/' . $users['task']->getId() . '/delete');
+		$crawler = $client->request('GET', '/tasks/' . $task->getId() . '/toggle');
+
+		$this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+	}
+
+
+	public function testToggleTaskActionUserAnonymous()
+	{
+		$client = static::createClient();
+
+		$this->loadFixtures([TaskAttachedFixtures::class]);
+		$task = self::$container->get(TaskRepository::class)->find(3);
+		$user = self::$container->get(UserRepository::class)->find(1);
+
+		$this->login($client, $user);
+
+		$crawler = $client->request('GET', '/tasks/' . $task->getId() . '/toggle');
+
+		$this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+	}
+
+	public function testDeleteTaskActionWithGoodCredentials()
+	{
+		$client = static::createClient();
+
+		$this->loadFixtures([TaskAttachedFixtures::class]);
+		$task = self::$container->get(TaskRepository::class)->find(1);
+		$user = self::$container->get(UserRepository::class)->find(1);
+
+		$this->login($client, $user);
+
+		$crawler = $client->request('GET', '/tasks/' . $task->getId() . '/delete');
 
 		$this->assertResponseRedirects('/tasks');
 		$client->followRedirect();
 		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
 		$this->assertSelectorTextContains('div.alert.alert-success', ' La tâche a bien été supprimée.');
+	}
+
+	public function testDeleteTaskActionOtherUser()
+	{
+		$client = static::createClient();
+
+		$this->loadFixtures([TaskAttachedFixtures::class]);
+		$task = self::$container->get(TaskRepository::class)->find(2);
+		$user = self::$container->get(UserRepository::class)->find(1);
+
+		$this->login($client, $user);
+
+		$crawler = $client->request('GET', '/tasks/' . $task->getId() . '/delete');
+
+		$this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+	}
+
+	public function testDeleteTaskActionUserAnonymous()
+	{
+		$client = static::createClient();
+
+		$this->loadFixtures([TaskAttachedFixtures::class]);
+		$task = self::$container->get(TaskRepository::class)->find(3);
+		$user = self::$container->get(UserRepository::class)->find(1);
+
+		$this->login($client, $user);
+
+		$crawler = $client->request('GET', '/tasks/' . $task->getId() . '/delete');
+
+		$this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
 	}
 }

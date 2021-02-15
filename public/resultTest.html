@@ -1,7 +1,7 @@
 PHPUnit 7.5.20 by Sebastian Bergmann and contributors.
 
 Testing Project Test Suite
-.                                                                   1 / 1 (100%)<!DOCTYPE html>
+.                                                                   1 / 1 (100%)<pre><!DOCTYPE html>
 <html lang="fr">
 
     <head>
@@ -50,7 +50,7 @@ Testing Project Test Suite
             <div class="row">
                 <div class="col-md-12">
                                             <div class="alert alert-success" role="alert">
-                            <strong>Superbe !</strong> La tâche task a bien été marquée comme faite.
+                            <strong>Superbe !</strong> La tâche Task1 a bien été marquée comme faite.
                         </div>
                     
                     
@@ -68,8 +68,10 @@ Testing Project Test Suite
                 <div class="caption">
                     <h4 class="pull-right">
                         <span class="glyphicon glyphicon-ok"></span>                    </h4>
-                    <h4><a href="/tasks/1/edit">task</a></h4>
-                    <p>content of task</p>
+                    <h4>
+                                                    <a href="/tasks/1/edit">Task1</a>
+                                            </h4>
+                    <p>Content for Task1</p>
                 </div>
                 <div>
                     <form action="/tasks/1/toggle">
@@ -77,6 +79,48 @@ Testing Project Test Suite
                             Marquer non terminée                        </button>
                     </form>
                     <form action="/tasks/1/delete">
+                        <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+                <div class="col-sm-4 col-lg-4 col-md-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h4 class="pull-right">
+                        <span class="glyphicon glyphicon-remove"></span>                    </h4>
+                    <h4>
+                                                    Task2
+                                            </h4>
+                    <p>Content for Task2</p>
+                </div>
+                <div>
+                    <form action="/tasks/2/toggle">
+                        <button class="btn btn-success btn-sm pull-right">
+                            Marquer comme faite                        </button>
+                    </form>
+                    <form action="/tasks/2/delete">
+                        <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+                <div class="col-sm-4 col-lg-4 col-md-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h4 class="pull-right">
+                        <span class="glyphicon glyphicon-remove"></span>                    </h4>
+                    <h4>
+                                                    Task3
+                                            </h4>
+                    <p>Content for Task3</p>
+                </div>
+                <div>
+                    <form action="/tasks/3/toggle">
+                        <button class="btn btn-success btn-sm pull-right">
+                            Marquer comme faite                        </button>
+                    </form>
+                    <form action="/tasks/3/delete">
                         <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
                     </form>
                 </div>
@@ -107,6 +151,6 @@ Testing Project Test Suite
 </html>
 
 
-Time: 1 second, Memory: 30.00 MB
+Time: 592 ms, Memory: 24.00 MB
 
 [30;42mOK (1 test, 5 assertions)[0m

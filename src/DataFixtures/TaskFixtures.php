@@ -8,8 +8,6 @@ use App\Entity\Task;
 
 class TaskFixtures extends Fixture
 {
-    private $encoder;
-
     public function load(ObjectManager $manager)
     {
     	for ($i=1; $i <= 10; $i++) {

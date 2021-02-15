@@ -17,22 +17,21 @@ class UserControllerTest extends WebTestCase
 	use NeedLogin;
 
 	// Mettre en place un syteme de droit pour acceder a cette page.
-	// public function testlistActionNotLog()
-	// {
-	// 	$client = static::createClient();
-	// 	$crawler = $client->request('GET', '/users');
-	// 	$this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
+	public function testlistActionNotLog()
+	{
+		$client = static::createClient();
+		$crawler = $client->request('GET', '/users');
+		$this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
+	}
 
-	// }
+	public function testlistActionNotLogRedirect()
+	{
+		$client = static::createClient();
+		$crawler = $client->request('GET', '/users');
+		$this->assertResponseRedirects('/login');
+	}
 
-	// public function testlistActionNotLogRedirect()
-	// {
-	// 	$client = static::createClient();
-	// 	$crawler = $client->request('GET', '/users');
-	// 	$this->assertResponseRedirects('/login');
-	// }
-
-	public function testlistActionLog()
+	public function testlistActionLogUser()
 	{
 		$client = static::createClient();
 
@@ -40,15 +39,45 @@ class UserControllerTest extends WebTestCase
 		$this->login($client, $users['user_user']);
 
 		$crawler = $client->request('GET', '/users');
+		$this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+	}
+
+	public function testlistActionLogAdmin()
+	{
+		$client = static::createClient();
+
+		$users = $this->loadFixtureFiles([ __DIR__ . '/user.yaml']);
+		$this->login($client, $users['user_admin']);
+
+		$crawler = $client->request('GET', '/users');
 		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
 	}
 
-	public function testEditActionWithGoodCredentials()
+	public function testEditActionWithGoodCredentialsUser()
 	{
 		$client = static::createClient();
 
 		$users = $this->loadFixtureFiles([ __DIR__ . '/user.yaml']);
 		$this->login($client, $users['user_user']);
+
+		$crawler = $client->request('GET', '/user/' . $users['user_user']->getId() . '/edit');
+		$form = $crawler->selectButton('Modifier')->form([
+			'user[password][first]' => 'test',
+			'user[password][second]' => 'test'
+		]);
+
+		$client->submit($form);
+
+		$this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
+		$this->assertResponseRedirects('/');
+	}
+
+	public function testEditActionWithGoodCredentialsAdmin()
+	{
+		$client = static::createClient();
+
+		$users = $this->loadFixtureFiles([ __DIR__ . '/user.yaml']);
+		$this->login($client, $users['user_admin']);
 
 		$crawler = $client->request('GET', '/user/' . $users['user_user']->getId() . '/edit');
 		$form = $crawler->selectButton('Modifier')->form([
@@ -102,12 +131,34 @@ class UserControllerTest extends WebTestCase
 		$this->assertSelectorTextContains('ul.list-unstyled', 'Le format de l\'adresse n\'est pas correcte.');
 	}
 
-	public function testcreateActionWithGoodCredentials()
+	public function testcreateActionWithGoodCredentialsUser()
 	{
 		$client = static::createClient();
 
 		$users = $this->loadFixtureFiles([ __DIR__ . '/user.yaml']);
 		$this->login($client, $users['user_user']);
+
+		$crawler = $client->request('GET', '/user/create');
+		$form = $crawler->selectButton('Ajouter')->form([
+			'user[username]' => 'test1',
+			'user[email]' => 'test1@test.fr',
+			'user[password][first]' => 'test',
+			'user[password][second]' => 'test'
+		]);
+
+		$client->submit($form);
+		$this->assertResponseRedirects('/');
+		$client->followRedirect();
+		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
+		$this->assertSelectorTextContains('div.alert.alert-success', 'Superbe ! L\'utilisateur a bien été ajouté.');
+	}
+
+	public function testcreateActionWithGoodCredentialsAdmin()
+	{
+		$client = static::createClient();
+
+		$users = $this->loadFixtureFiles([ __DIR__ . '/user.yaml']);
+		$this->login($client, $users['user_admin']);
 
 		$crawler = $client->request('GET', '/user/create');
 		$form = $crawler->selectButton('Ajouter')->form([
