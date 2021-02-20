@@ -2,15 +2,16 @@ App\Entity\User:
   user_user:
     email: test@test.fr
     username: test
-    password: \$2y\$10\$ajvAysXLmtriAy9So/mUTeQan7F.VX7VAc4Nj2LJHqFvi94gWeNNa
-    role_user: ROLE_USER
+    password: test
+    roles: ["ROLE_USER"]
   user_user2:
     email: test2@test.fr
     username: test2
-    password: \$2y\$10\$ajvAysXLmtriAy9So/mUTeQan7F.VX7VAc4Nj2LJHqFvi94gWeNNa
-    role_user: ROLE_USER
+    password: test
+    roles: ["ROLE_USER"]
   user_admin:
     email: admin@test.fr
     username: admin
-    password: \$2y\$10\$ajvAysXLmtriAy9So/mUTeQan7F.VX7VAc4Nj2LJHqFvi94gWeNNa
-    role_user: ROLE_ADMIN
+    password: test
+    roles: ["ROLE_ADMIN"]
+#\$2y\$10\$ajvAysXLmtriAy9So/mUTeQan7F.VX7VAc4Nj2LJHqFvi94gWeNNa

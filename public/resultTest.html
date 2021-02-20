@@ -1,7 +1,7 @@
 PHPUnit 7.5.20 by Sebastian Bergmann and contributors.
 
 Testing Project Test Suite
-.                                                                   1 / 1 (100%)<pre><!DOCTYPE html>
+[41;37mF[0m                                                                   1 / 1 (100%)<!DOCTYPE html>
 <html lang="fr">
 
     <head>
@@ -31,7 +31,7 @@ Testing Project Test Suite
         <nav class="navbar navbar-light navbar-fixed-top" style="background-color: #e3f2fd;" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">To Do List app</a>
+                    <a class="navbar-brand" href="/">To Do List app</a>
 
                     <img src="/img/Logo_OpenClassrooms.png" alt="OpenClassrooms" />
                 </div>
@@ -41,92 +41,32 @@ Testing Project Test Suite
         <!-- Page Content -->
         <div class="container">
             <div class="row">
-                <a href="/user/create" class="btn btn-primary">Créer un utilisateur</a>
-
-                                <a href="/logout" class="pull-right btn btn-danger">Se déconnecter</a>
                 
                             </div>
 
             <div class="row">
                 <div class="col-md-12">
-                                            <div class="alert alert-success" role="alert">
-                            <strong>Superbe !</strong> La tâche Task1 a bien été marquée comme faite.
-                        </div>
                     
                     
-                                        <img class="slide-image" src="/img/todolist_content.jpg" alt="todo list">                </div>
+                                        <img class="slide-image" src="/img/todolist_homepage.jpg" alt="todo list">                </div>
             </div>
 
             <br />
 
             <div class="row">
                 <div class="col-md-12">
-                        <a href="/tasks/create" class="btn btn-info pull-right">Créer une tâche</a>
-    <div class="row">
-                <div class="col-sm-4 col-lg-4 col-md-4">
-            <div class="thumbnail">
-                <div class="caption">
-                    <h4 class="pull-right">
-                        <span class="glyphicon glyphicon-ok"></span>                    </h4>
-                    <h4>
-                                                    <a href="/tasks/1/edit">Task1</a>
-                                            </h4>
-                    <p>Content for Task1</p>
-                </div>
-                <div>
-                    <form action="/tasks/1/toggle">
-                        <button class="btn btn-success btn-sm pull-right">
-                            Marquer non terminée                        </button>
-                    </form>
-                    <form action="/tasks/1/delete">
-                        <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-                <div class="col-sm-4 col-lg-4 col-md-4">
-            <div class="thumbnail">
-                <div class="caption">
-                    <h4 class="pull-right">
-                        <span class="glyphicon glyphicon-remove"></span>                    </h4>
-                    <h4>
-                                                    Task2
-                                            </h4>
-                    <p>Content for Task2</p>
-                </div>
-                <div>
-                    <form action="/tasks/2/toggle">
-                        <button class="btn btn-success btn-sm pull-right">
-                            Marquer comme faite                        </button>
-                    </form>
-                    <form action="/tasks/2/delete">
-                        <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-                <div class="col-sm-4 col-lg-4 col-md-4">
-            <div class="thumbnail">
-                <div class="caption">
-                    <h4 class="pull-right">
-                        <span class="glyphicon glyphicon-remove"></span>                    </h4>
-                    <h4>
-                                                    Task3
-                                            </h4>
-                    <p>Content for Task3</p>
-                </div>
-                <div>
-                    <form action="/tasks/3/toggle">
-                        <button class="btn btn-success btn-sm pull-right">
-                            Marquer comme faite                        </button>
-                    </form>
-                    <form action="/tasks/3/delete">
-                        <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-            </div>
+                                <div class="alert alert-danger" role="alert">Invalid credentials.</div>
+    
+    <form method="post">
+        <label for="username">Nom d'utilisateur :</label>
+        <input type="text" id="username" name="username" value="test" />
+
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" name="password" />
+        <input type="hidden" name="_csrf_token" value="2oJajZ1u05b3ySfHkR42cPQgFPXZQLgS-isuWd2YRZ8">
+
+        <button class="btn btn-success" type="submit">Se connecter</button>
+    </form>
                 </div>
             </div>
         </div>
@@ -151,6 +91,164 @@ Testing Project Test Suite
 </html>
 
 
-Time: 592 ms, Memory: 24.00 MB
+Time: 5.79 seconds, Memory: 54.00 MB
 
-[30;42mOK (1 test, 5 assertions)[0m
+There was 1 failure:
+
+1) App\Tests\Controller\SecurityControllerTest::testloginActionWithGoodCredentials
+Failed asserting that Symfony\Component\HttpFoundation\Response Object &000000006e49fb9d0000000031d8b8b5 (
+    'headers' => Symfony\Component\HttpFoundation\ResponseHeaderBag Object &000000006e49fd860000000031d8b8b5 (
+        'computedCacheControl' => Array &0 (
+            'max-age' => '0'
+            'must-revalidate' => true
+            'private' => true
+        )
+        'cookies' => Array &1 (
+            '' => Array &2 (
+                '/' => Array &3 (
+                    'MOCKSESSID' => Symfony\Component\HttpFoundation\Cookie Object &000000006e49ee7b0000000031d8b8b5 (
+                        'name' => 'MOCKSESSID'
+                        'value' => '0149e8abf3b6ae4a112a1fbfd93c3a07f3938501b83d613cdd6a97b128cdbf96'
+                        'domain' => ''
+                        'expire' => 0
+                        'path' => '/'
+                        'secure' => true
+                        'httpOnly' => true
+                        'raw' => false
+                        'sameSite' => 'lax'
+                        'secureDefault' => false
+                    )
+                )
+            )
+        )
+        'headerNames' => Array &4 (
+            'cache-control' => 'Cache-Control'
+            'date' => 'Date'
+            'content-type' => 'Content-Type'
+            'set-cookie' => 'Set-Cookie'
+            'x-robots-tag' => 'X-Robots-Tag'
+            'expires' => 'Expires'
+        )
+        'headers' => Array &5 (
+            'cache-control' => Array &6 (
+                0 => 'max-age=0, must-revalidate, private'
+            )
+            'date' => Array &7 (
+                0 => 'Sat, 20 Feb 2021 16:03:23 GMT'
+            )
+            'content-type' => Array &8 (
+                0 => 'text/html; charset=UTF-8'
+            )
+            'x-robots-tag' => Array &9 (
+                0 => 'noindex'
+            )
+            'expires' => Array &10 (
+                0 => 'Sat, 20 Feb 2021 16:03:23 GMT'
+            )
+        )
+        'cacheControl' => Array &11 (
+            'max-age' => '0'
+            'must-revalidate' => true
+            'private' => true
+        )
+    )
+    'content' => '<!DOCTYPE html>\n
+<html lang="fr">\n
+\n
+    <head>\n
+        <meta charset="utf-8">\n
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">\n
+        <meta name="viewport" content="width=device-width, initial-scale=1">\n
+        <meta name="description" content="">\n
+        <meta name="author" content="">\n
+\n
+        <title>To Do List app</title>\n
+\n
+        <!-- Bootstrap Core CSS -->\n
+        <link href="/css/bootstrap.min.css" rel="stylesheet">\n
+\n
+        <!-- Custom CSS -->\n
+        <link href="/css/shop-homepage.css" rel="stylesheet">\n
+\n
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->\n
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->\n
+        <!--[if lt IE 9]>\n
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>\n
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>\n
+        <![endif]-->\n
+    </head>\n
+\n
+    <body>\n
+        <nav class="navbar navbar-light navbar-fixed-top" style="background-color: #e3f2fd;" role="navigation">\n
+            <div class="container">\n
+                <div class="navbar-header">\n
+                    <a class="navbar-brand" href="/">To Do List app</a>\n
+\n
+                    <img src="/img/Logo_OpenClassrooms.png" alt="OpenClassrooms" />\n
+                </div>\n
+            </div>\n
+        </nav>\n
+\n
+        <!-- Page Content -->\n
+        <div class="container">\n
+            <div class="row">\n
+                \n
+                            </div>\n
+\n
+            <div class="row">\n
+                <div class="col-md-12">\n
+                    \n
+                    \n
+                                        <img class="slide-image" src="/img/todolist_homepage.jpg" alt="todo list">                </div>\n
+            </div>\n
+\n
+            <br />\n
+\n
+            <div class="row">\n
+                <div class="col-md-12">\n
+                                <div class="alert alert-danger" role="alert">Invalid credentials.</div>\n
+    \n
+    <form method="post">\n
+        <label for="username">Nom d'utilisateur :</label>\n
+        <input type="text" id="username" name="username" value="test" />\n
+\n
+        <label for="password">Mot de passe :</label>\n
+        <input type="password" id="password" name="password" />\n
+        <input type="hidden" name="_csrf_token" value="2oJajZ1u05b3ySfHkR42cPQgFPXZQLgS-isuWd2YRZ8">\n
+\n
+        <button class="btn btn-success" type="submit">Se connecter</button>\n
+    </form>\n
+                </div>\n
+            </div>\n
+        </div>\n
+        <!-- /.container -->\n
+\n
+        <div class="container">\n
+\n
+            <hr>\n
+            <footer>\n
+                <div class="row">\n
+                    <div class="col-lg-12">\n
+                        <p class="pull-right">Copyright &copy; OpenClassrooms</p>\n
+                    </div>\n
+                </div>\n
+            </footer>\n
+\n
+        </div>\n
+\n
+        <script src="/js/jquery.js"></script>\n
+        <script src="/js/bootstrap.min.js"></script>\n
+    </body>\n
+</html>\n
+'
+    'version' => '1.1'
+    'statusCode' => 200
+    'statusText' => 'OK'
+    'charset' => 'UTF-8'
+) is redirected and has header "Location" with value "/".
+
+C:\wamp64\www\projet8-TodoList\vendor\symfony\framework-bundle\Test\BrowserKitAssertionsTrait.php:49
+C:\wamp64\www\projet8-TodoList\tests\Controller\SecurityControllerTest.php:88
+
+[37;41mFAILURES![0m
+[37;41mTests: 1[0m[37;41m, Assertions: 2[0m[37;41m, Failures: 1[0m[37;41m.[0m

@@ -10,13 +10,13 @@ class TaskFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-    	for ($i=1; $i <= 10; $i++) {
-    		$task = (new Task())
-    			->setTitle("Task$i")
-    			->setContent("Content for Task$i")
-    		;
-        	$manager->persist($task);
-    	}
+        for ($i=1; $i <= 10; $i++) {
+            $task = (new Task())
+                ->setTitle("Task$i")
+                ->setContent("Content for Task$i")
+            ;
+            $manager->persist($task);
+        }
         $manager->flush();
     }
 }

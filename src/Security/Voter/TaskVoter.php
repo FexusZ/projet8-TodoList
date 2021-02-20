@@ -24,7 +24,7 @@ class TaskVoter extends Voter
             return false;
         }
 
-        if ($user->getRoleUser() == 'ROLE_ADMIN') {
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
             return true;
         }
 

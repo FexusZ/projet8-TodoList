@@ -26,9 +26,9 @@ class UserVoter extends Voter
 
         switch ($attribute) {
             case 'EDIT':
-                return ($otherUser->getId() == $user->getId() || $user->getRoleUser() == 'ROLE_ADMIN');
+                return ($otherUser->getId() == $user->getId() || in_array('ROLE_ADMIN', $user->getRoles()));
             case 'VIEW':
-                return ($user->getRoleUser() == 'ROLE_ADMIN');
+                return (in_array('ROLE_ADMIN', $user->getRoles()));
                 break;
         }
 

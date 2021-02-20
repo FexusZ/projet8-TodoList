@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @UniqueEntity("email")
  * @UniqueEntity("username")
+ * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface
 {
@@ -49,9 +50,9 @@ class User implements UserInterface
     private $tasks;
 
     /**
-     * @ORM\Column(type="string", length=255, options={"default" : "ROLE_USER"}))
+     * @ORM\Column(type="json")
      */
-    private $role_user;
+    private $roles = [];
 
     public function __construct()
     {
@@ -78,7 +79,7 @@ class User implements UserInterface
     {
         return null;
     }
-
+    
     public function getPassword()
     {
         return $this->password;
@@ -101,9 +102,23 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRoles()
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
     {
-        return array('ROLE_USER', 'ROLE_ADMIN');
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 
     public function eraseCredentials()
@@ -136,18 +151,6 @@ class User implements UserInterface
                 $task->setUser(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getRoleUser(): ?string
-    {
-        return $this->role_user ? $this->role_user : 'ROLE_USER';
-    }
-
-    public function setRoleUser(string $role_user): self
-    {
-        $this->role_user = $role_user;
 
         return $this;
     }
