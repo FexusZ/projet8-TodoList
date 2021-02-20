@@ -9,16 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UserRepositoryTest extends KernelTestCase
 {
-	use FixturesTrait;
+    use FixturesTrait;
 
-	public function testCount()
-	{
-		self::bootKernel();
+    public function testCount()
+    {
+        self::bootKernel();
 
-		$this->loadFixtures([UserFixtures::class]);
+        $this->loadFixtures([UserFixtures::class]);
 
-		$users = self::$container->get(UserRepository::class)->count([]);
+        $users = self::$container->get(UserRepository::class)->count([]);
 
-		$this->assertEquals(10, $users);
-	}
+        $this->assertEquals(10, $users);
+    }
 }

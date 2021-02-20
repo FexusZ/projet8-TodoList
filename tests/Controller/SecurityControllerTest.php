@@ -8,96 +8,95 @@ use Liip\TestFixturesBundle\Test\FixturesTrait;
 use App\Tests\NeedLogin;
 
 /**
- * 
+ *
  */
 class SecurityControllerTest extends WebTestCase
 {
-	use FixturesTrait;
-	use NeedLogin;
+    use FixturesTrait;
+    use NeedLogin;
 
-	public function testloginAction()
-	{
-		$client = static::createClient();
+    public function testloginAction()
+    {
+        $client = static::createClient();
 
-		$crawler = $client->request('GET', '/login');
+        $crawler = $client->request('GET', '/login');
 
-		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
-		$this->assertSelectorNotExists('.alert.alert-danger');
-	}
+        $this->assertSelectorNotExists('.alert.alert-danger');
+    }
 
-	public function testloginActionWithBadCredentials()
-	{
-		$client = static::createClient();
+    public function testloginActionWithBadCredentials()
+    {
+        $client = static::createClient();
 
-		$crawler = $client->request('GET', '/login');
-		
-		$form = $crawler->selectButton('Se connecter')->form([
-			'username' => 'notgoodusername',
-			'password' => 'notgoodpassword'
-		]);
+        $crawler = $client->request('GET', '/login');
+        
+        $form = $crawler->selectButton('Se connecter')->form([
+            'username' => 'notgoodusername',
+            'password' => 'notgoodpassword'
+        ]);
 
-		$client->submit($form);
+        $client->submit($form);
 
-		$this->assertResponseRedirects('/login');
+        $this->assertResponseRedirects('/login');
 
-		$client->followRedirect();
+        $client->followRedirect();
 
-		$this->assertSelectorExists('.alert.alert-danger');
-	}
+        $this->assertSelectorExists('.alert.alert-danger');
+    }
 
-	public function testloginActionWithNoToken()
-	{
-		$client = static::createClient();
+    public function testloginActionWithNoToken()
+    {
+        $client = static::createClient();
 
-		$crawler = $client->request('GET', '/login');
-		
-		$form = $crawler->selectButton('Se connecter')->form([
-			'username' => 'notgoodusername',
-			'password' => 'notgoodpassword',
-			'_csrf_token' => ''
-		]);
+        $crawler = $client->request('GET', '/login');
+        
+        $form = $crawler->selectButton('Se connecter')->form([
+            'username' => 'notgoodusername',
+            'password' => 'notgoodpassword',
+            '_csrf_token' => ''
+        ]);
 
-		$client->submit($form);
+        $client->submit($form);
 
-		$this->assertResponseRedirects('/login');
+        $this->assertResponseRedirects('/login');
 
-		$client->followRedirect();
+        $client->followRedirect();
 
-		$this->assertSelectorExists('.alert.alert-danger');
-	}
+        $this->assertSelectorExists('.alert.alert-danger');
+    }
 
-	public function testloginActionWithGoodCredentials()
-	{
+    public function testloginActionWithGoodCredentials()
+    {
+        $client = static::createClient();
 
-		$client = static::createClient();
+        $this->loadFixtureFiles([ __DIR__ . '/user.yaml']);
 
-		$this->loadFixtureFiles([ __DIR__ . '/user.yaml']);
+        $crawler = $client->request('GET', '/login');
 
-		$crawler = $client->request('GET', '/login');
+        $form = $crawler->selectButton('Se connecter')->form([
+            'username' => 'test',
+            'password' => 'test'
+        ]);
 
-		$form = $crawler->selectButton('Se connecter')->form([
-			'username' => 'test',
-			'password' => 'test'
-		]);
+        $client->submit($form);
 
-		$client->submit($form);
+        $this->assertResponseRedirects('/');
 
-		$this->assertResponseRedirects('/');
+        $client->followRedirect();
+    }
 
-		$client->followRedirect();
-	}
+    public function testlogoutCheck()
+    {
+        $client = static::createClient();
 
-	public function testlogoutCheck()
-	{
-		$client = static::createClient();
+        $users = $this->loadFixtureFiles([
+            __DIR__ . '/user.yaml',
+        ]);
 
-		$users = $this->loadFixtureFiles([
-		 	__DIR__ . '/user.yaml',
-		]);
-
-		$this->login($client, $users['user_user']);
-		$crawler = $client->request('GET', '/logout');
-		$this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
-	}
+        $this->login($client, $users['user_user']);
+        $crawler = $client->request('GET', '/logout');
+        $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
+    }
 }

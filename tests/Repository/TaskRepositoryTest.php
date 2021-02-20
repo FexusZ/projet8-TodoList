@@ -9,16 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class TaskRepositoryTest extends KernelTestCase
 {
-	use FixturesTrait;
+    use FixturesTrait;
 
-	public function testCount()
-	{
-		self::bootKernel();
+    public function testCount()
+    {
+        self::bootKernel();
 
-		$this->loadFixtures([TaskFixtures::class]);
+        $this->loadFixtures([TaskFixtures::class]);
 
-		$users = self::$container->get(TaskRepository::class)->count([]);
+        $users = self::$container->get(TaskRepository::class)->count([]);
 
-		$this->assertEquals(10, $users);
-	}
+        $this->assertEquals(10, $users);
+    }
 }

@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\CallbackTransformer;
 
 class UserType extends AbstractType
 {
@@ -31,16 +32,24 @@ class UserType extends AbstractType
                 'label' => 'Adresse email',
                 'required' => false
             ])
-            ->add('role_user', ChoiceType::class, [
-                'choices' => $this->getRoles(),
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'Utilisateur' => 'ROLE_USER',
+                    'Administrateur' => 'ROLE_ADMIN'
+                ],
+                'multiple' => false,
+                'expanded' =>false,
                 'required' => true,
-                'empty_data' => 'ROLE_USER'
             ])
         ;
-    }
-
-    public function getRoles()
-    {
-        return ['Utilisateur' => 'ROLE_USER', 'Administrateur' => 'ROLE_ADMIN'];
+        $builder->get('roles')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($rolesArray) {
+                    return count($rolesArray) ? $rolesArray[0] : null;
+                },
+                function ($roleString) {
+                    return [$roleString];
+                }
+            ));
     }
 }

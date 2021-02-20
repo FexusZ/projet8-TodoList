@@ -19,28 +19,27 @@ class TaskAttachedFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-
         for ($i=1; $i <= 3; $i++) {
             if ($i !== 3) {
                 $user = new User();
 
-                $user->setUsername("User$i")
-                    ->setEmail("User$i@email.fr")
+                $user->setUsername($i < 2 ? "User$i" : 'Admin')
+                    ->setEmail($i < 2 ? "User$i@email.fr" : 'Admin@email.fr')
                     ->setPassword($this->encoder->encodePassword($user, 'test'))
-                    ->setRoleUser($i < 2 ? 'ROLE_USER' : 'ROLE_ADMIN')
+                    ->setRoles($i < 2 ? ['ROLE_USER'] : ['ROLE_ADMIN'])
                 ;
                 $manager->persist($user);
             }
 
-    		$task = (new Task())
-    			->setTitle("Task$i")
-    			->setContent("Content for Task$i")
-    		;
+            $task = (new Task())
+                ->setTitle("Task$i")
+                ->setContent("Content for Task$i")
+            ;
 
             $i !== 3 ? $task->setUser($user) : "";
 
-        	$manager->persist($task);
-    	}
+            $manager->persist($task);
+        }
         $manager->flush();
     }
 }

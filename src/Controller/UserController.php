@@ -7,7 +7,6 @@ use App\Form\UserType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
@@ -23,7 +22,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/create", name="user_create")
      */
-    public function createAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function createAction(Request $request)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -31,16 +30,12 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
-            $user->setRoleUser($request->request->get('user')["role_user"]);
-
             $em->persist($user);
             $em->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
-            if ($this->getUser()->getRoleUser() == 'ROLE_ADMIN') {
+            if (in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
                 return $this->redirectToRoute('user_list');
             } else {
                 return $this->redirectToRoute('homepage');
@@ -52,10 +47,10 @@ class UserController extends AbstractController
 
     /**
      * @param User $user
-     * 
+     *
      * @Route("/user/{id}/edit", name="user_edit")
      */
-    public function editAction(User $user, Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function editAction(User $user, Request $request)
     {
         $this->denyAccessUnlessGranted('EDIT', $user);
 
@@ -64,13 +59,12 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
-
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
-            if ($this->getUser()->getRoleUser() == 'ROLE_ADMIN') {
+            if (in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
                 return $this->redirectToRoute('user_list');
             } else {
                 return $this->redirectToRoute('homepage');
