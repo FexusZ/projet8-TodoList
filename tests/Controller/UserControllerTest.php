@@ -78,7 +78,6 @@ class UserControllerTest extends WebTestCase
         $client = static::createClient();
 
         $this->loadFixtures([UserFixtures::class]);
-
         $user = self::$container->get(UserRepository::class)->findOneBy(['username' => 'Admin']);
         $user2 = self::$container->get(UserRepository::class)->findOneBy(['username' => 'User1']);
 

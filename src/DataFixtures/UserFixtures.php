@@ -22,7 +22,7 @@ class UserFixtures extends Fixture
 
             $user->setUsername($i < 10 ?"User$i" : 'Admin')
                 ->setEmail($i < 10 ? "User$i@email.fr" : 'Admin@email.fr')
-                ->setPassword($this->encoder->encodePassword($user, 'test'))
+                ->setPassword('test')
                 ->setRoles($i < 10 ? ['ROLE_USER'] : ['ROLE_ADMIN'])
             ;
             $manager->persist($user);

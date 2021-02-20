@@ -71,8 +71,7 @@ class SecurityControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $this->loadFixtureFiles([ __DIR__ . '/user.yaml']);
-
+        $user = $this->loadFixtureFiles([ __DIR__ . '/user.yaml']);
         $crawler = $client->request('GET', '/login');
 
         $form = $crawler->selectButton('Se connecter')->form([
@@ -84,7 +83,6 @@ class SecurityControllerTest extends WebTestCase
 
         $this->assertResponseRedirects('/');
 
-        $client->followRedirect();
     }
 
     public function testlogoutCheck()

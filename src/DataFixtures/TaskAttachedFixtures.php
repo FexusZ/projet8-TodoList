@@ -6,16 +6,10 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Task;
 use App\Entity\User;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class TaskAttachedFixtures extends Fixture
 {
     private $encoder;
-
-    public function __construct(UserPasswordEncoderInterface $encoder)
-    {
-        $this->encoder = $encoder;
-    }
 
     public function load(ObjectManager $manager)
     {
@@ -25,7 +19,7 @@ class TaskAttachedFixtures extends Fixture
 
                 $user->setUsername($i < 2 ? "User$i" : 'Admin')
                     ->setEmail($i < 2 ? "User$i@email.fr" : 'Admin@email.fr')
-                    ->setPassword($this->encoder->encodePassword($user, 'test'))
+                    ->setPassword('test')
                     ->setRoles($i < 2 ? ['ROLE_USER'] : ['ROLE_ADMIN'])
                 ;
                 $manager->persist($user);
