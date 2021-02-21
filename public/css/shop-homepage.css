@@ -53,10 +53,14 @@ footer {
     margin: 50px 0;
 }
 
-.mb {
+.mb-4 {
   margin-bottom: 4.5rem !important;
 }
 
 .height {
     height: 2rem;
+}
+
+.mb-2 {
+    margin-bottom: 2rem;
 }
