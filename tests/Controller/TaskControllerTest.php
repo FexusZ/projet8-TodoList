@@ -44,6 +44,17 @@ class TaskControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 
+    public function testlistActionFinishedLog()
+    {
+        $client = static::createClient();
+
+        $users = $this->loadFixtureFiles([ __DIR__ . '/user.yaml']);
+        $this->login($client, $users['user_user']);
+
+        $crawler = $client->request('GET', '/tasks/finished');
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
+
     public function testEditActionWithGoodCredentialsUser()
     {
         $client = static::createClient();

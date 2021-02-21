@@ -15,7 +15,15 @@ class TaskController extends AbstractController
      */
     public function listAction()
     {
-        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository(Task::class)->findAll()]);
+        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository(Task::class)->findAll(), 'path' => true]);
+    }
+
+    /**
+     * @Route("/tasks/finished", name="task_list_finished")
+     */
+    public function listActionFinished()
+    {
+        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository(Task::class)->findBy(['isDone' => 1]), 'path' => false]);
     }
 
     /**
@@ -72,7 +80,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle")
      */
-    public function toggleTaskAction(Task $task)
+    public function toggleTaskAction(Task $task, Request $request)
     {
         $this->denyAccessUnlessGranted('EDIT', $task);
         $task->toggle(!$task->isDone());

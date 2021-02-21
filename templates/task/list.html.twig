@@ -15,7 +15,7 @@
                         {% if task.isDone %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}
                     </h4>
                     <h4>
-                        {% if is_granted('EDIT', task) %}
+                        {% if is_granted('EDIT', task) and path == true %}
                             <a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a>
                         {% else %}
                             {{ task.title }}
@@ -23,21 +23,23 @@
                     </h4>
                     <p>{{ task.content }}</p>
                 </div>
-                <div class="height">
-                    {% if is_granted('EDIT', task) %}
-                        <form action="{{ path('task_toggle', {'id' : task.id }) }}">
-                            <button class="btn btn-success btn-sm pull-right">
-                                {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
-                            </button>
-                        </form>
-                    {% endif %}
+                {% if path == true %}
+                    <div class="height">
+                        {% if is_granted('EDIT', task) %}
+                            <form action="{{ path('task_toggle', {'id' : task.id }) }}">
+                                <button class="btn btn-success btn-sm pull-right toggle">
+                                    {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
+                                </button>
+                            </form>
+                        {% endif %}
 
-                    {% if is_granted('DELETE', task) %}
-                        <form action="{{ path('task_delete', {'id' : task.id }) }}">
-                            <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
-                        </form>
-                    {% endif %}
-                </div>
+                        {% if is_granted('DELETE', task) %}
+                            <form action="{{ path('task_delete', {'id' : task.id }) }}">
+                                <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endif %}
             </div>
         </div>
         {% else %}
