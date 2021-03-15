@@ -2,7 +2,7 @@
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <title>Dashboard for C:\wamp64\www\projet8-TodoList\src\Security</title>
+  <title>Dashboard for C:\wamp64\www\projet8-TodoList\src\EventListener</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="../.css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../.css/nv.d3.min.css" rel="stylesheet" type="text/css">
@@ -17,7 +17,7 @@
       <nav aria-label="breadcrumb">
        <ol class="breadcrumb">
          <li class="breadcrumb-item"><a href="../index.html">C:\wamp64\www\projet8-TodoList\src</a></li>
-         <li class="breadcrumb-item"><a href="index.html">Security</a></li>
+         <li class="breadcrumb-item"><a href="index.html">EventListener</a></li>
          <li class="breadcrumb-item active">(Dashboard)</li>
 
        </ol>
@@ -58,7 +58,6 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="Voter/TaskVoter.php.html#9">App\Security\Voter\TaskVoter</a></td><td class="text-right">86%</td></tr>
 
        </tbody>
       </table>
@@ -75,7 +74,6 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="Voter/TaskVoter.php.html#9">App\Security\Voter\TaskVoter</a></td><td class="text-right">8</td></tr>
 
        </tbody>
       </table>
@@ -113,9 +111,6 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="LoginFormAuthenticator.php.html#91"><abbr title="App\Security\LoginFormAuthenticator::onAuthenticationSuccess">onAuthenticationSuccess</abbr></a></td><td class="text-right">66%</td></tr>
-       <tr><td><a href="Voter/TaskVoter.php.html#19"><abbr title="App\Security\Voter\TaskVoter::voteOnAttribute">voteOnAttribute</abbr></a></td><td class="text-right">84%</td></tr>
-       <tr><td><a href="Voter/UserVoter.php.html#19"><abbr title="App\Security\Voter\UserVoter::voteOnAttribute">voteOnAttribute</abbr></a></td><td class="text-right">88%</td></tr>
 
        </tbody>
       </table>
@@ -132,9 +127,6 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="Voter/TaskVoter.php.html#19"><abbr title="App\Security\Voter\TaskVoter::voteOnAttribute">voteOnAttribute</abbr></a></td><td class="text-right">6</td></tr>
-       <tr><td><a href="Voter/UserVoter.php.html#19"><abbr title="App\Security\Voter\UserVoter::voteOnAttribute">voteOnAttribute</abbr></a></td><td class="text-right">5</td></tr>
-       <tr><td><a href="LoginFormAuthenticator.php.html#91"><abbr title="App\Security\LoginFormAuthenticator::onAuthenticationSuccess">onAuthenticationSuccess</abbr></a></td><td class="text-right">2</td></tr>
 
        </tbody>
       </table>
@@ -163,7 +155,7 @@ $(document).ready(function() {
       .yAxis.tickFormat(d3.format('d'));
 
     d3.select('#classCoverageDistribution svg')
-      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,1,2,0], "Class Coverage"))
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,0,0,1], "Class Coverage"))
       .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -181,7 +173,7 @@ $(document).ready(function() {
       .yAxis.tickFormat(d3.format('d'));
 
     d3.select('#methodCoverageDistribution svg')
-      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,1,0,2,0,9], "Method Coverage"))
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,0,0,3], "Method Coverage"))
       .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -231,7 +223,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Cyclomatic Complexity');
 
     d3.select('#classComplexity svg')
-      .datum(getComplexityData([[96.29629629629629,13,"<a href=\"LoginFormAuthenticator.php.html#22\">App\\Security\\LoginFormAuthenticator<\/a>"],[86.66666666666667,8,"<a href=\"Voter\/TaskVoter.php.html#9\">App\\Security\\Voter\\TaskVoter<\/a>"],[90.9090909090909,7,"<a href=\"Voter\/UserVoter.php.html#9\">App\\Security\\Voter\\UserVoter<\/a>"]], 'Class Complexity'))
+      .datum(getComplexityData([[100,3,"<a href=\"EncodePassword.php.html#9\">App\\EventListener\\EncodePassword<\/a>"]], 'Class Complexity'))
       .transition()
       .duration(500)
       .call(chart);
@@ -255,7 +247,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Method Complexity');
 
     d3.select('#methodComplexity svg')
-      .datum(getComplexityData([[100,1,"<a href=\"LoginFormAuthenticator.php.html#33\">App\\Security\\LoginFormAuthenticator::__construct<\/a>"],[100,2,"<a href=\"LoginFormAuthenticator.php.html#41\">App\\Security\\LoginFormAuthenticator::supports<\/a>"],[100,1,"<a href=\"LoginFormAuthenticator.php.html#47\">App\\Security\\LoginFormAuthenticator::getCredentials<\/a>"],[100,3,"<a href=\"LoginFormAuthenticator.php.html#62\">App\\Security\\LoginFormAuthenticator::getUser<\/a>"],[100,1,"<a href=\"LoginFormAuthenticator.php.html#78\">App\\Security\\LoginFormAuthenticator::checkCredentials<\/a>"],[100,2,"<a href=\"LoginFormAuthenticator.php.html#86\">App\\Security\\LoginFormAuthenticator::getPassword<\/a>"],[66.66666666666666,2,"<a href=\"LoginFormAuthenticator.php.html#91\">App\\Security\\LoginFormAuthenticator::onAuthenticationSuccess<\/a>"],[100,1,"<a href=\"LoginFormAuthenticator.php.html#101\">App\\Security\\LoginFormAuthenticator::getLoginUrl<\/a>"],[100,2,"<a href=\"Voter\/TaskVoter.php.html#11\">App\\Security\\Voter\\TaskVoter::supports<\/a>"],[84.61538461538461,6,"<a href=\"Voter\/TaskVoter.php.html#19\">App\\Security\\Voter\\TaskVoter::voteOnAttribute<\/a>"],[100,2,"<a href=\"Voter\/UserVoter.php.html#11\">App\\Security\\Voter\\UserVoter::supports<\/a>"],[88.88888888888889,5,"<a href=\"Voter\/UserVoter.php.html#19\">App\\Security\\Voter\\UserVoter::voteOnAttribute<\/a>"]], 'Method Complexity'))
+      .datum(getComplexityData([[100,1,"<a href=\"EncodePassword.php.html#12\">App\\EventListener\\EncodePassword::__construct<\/a>"],[100,1,"<a href=\"EncodePassword.php.html#19\">App\\EventListener\\EncodePassword::prePersist<\/a>"],[100,1,"<a href=\"EncodePassword.php.html#24\">App\\EventListener\\EncodePassword::preUpdate<\/a>"]], 'Method Complexity'))
       .transition()
       .duration(500)
       .call(chart);
